@@ -3,7 +3,8 @@
 This simple sample demonstrates how retrieve multiple outputs from a smart contract call and output the result to the Debug Window. If deploying to Webgl the output will be visible on the console.
 
 ## Solidity contract
-The solidity contract just outputs different data as follows when call getData.
+The solidity contract has just a function ```getData``` which has multiple outputs of different types.
+
 ```javascript
 pragma solidity ^0.4.19;
 
