@@ -78,9 +78,7 @@ Now we can create a function and create the call input, there are no parameters 
 
 ```csharp
  var function = contract.GetFunction("getData");
-        
-        var callInput = function.CreateCallInput();
-function.CreateCallInput();
+ var callInput = function.CreateCallInput();
 ```
 
 The next step is to make the call and retrieve the result
