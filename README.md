@@ -8,17 +8,18 @@ The solidity contract has just a function ```getData``` which has multiple outpu
 ```javascript
 pragma solidity ^0.4.19;
 
-            contract TestOutput {
+contract TestOutput {
 
-                function getData() returns (uint64 birthTime, string userName, uint16 starterId, uint16 currLocation, bool isBusy, address owner ) {
-                    birthTime = 1;
-                    userName = "juan";
-                    starterId = 1;
-                    currLocation = 1;
-                    isBusy = false;
-                    owner = 0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae;
-                }
-            }
+ function getData() returns (uint64 birthTime, string userName, uint16 starterId, uint16 currLocation, bool isBusy, address owner ) {
+    birthTime = 1;
+    userName = "juan";
+    starterId = 1;
+    currLocation = 1;
+    isBusy = false;
+    owner = 0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae;
+ }
+
+}
 ```
 ## Deployment
 
@@ -39,28 +40,28 @@ BYTE_CODE, senderAddress, new HexBigInteger(900000));
 To retrieve multiple parameters we need a DTO object to represent all the output parameters:
 
 ```csharp
-    [FunctionOutput]
-    public class GetDataDTO
-    {
-        [Parameter("uint64", "birthTime", 1)]
-        public ulong BirthTime { get; set; }
+[FunctionOutput]
+public class GetDataDTO
+{
+	[Parameter("uint64", "birthTime", 1)]
+	public ulong BirthTime { get; set; }
 
-        [Parameter("string", "userName", 2)]
-        public string UserName { get; set; }
+	[Parameter("string", "userName", 2)]
+	public string UserName { get; set; }
 
-        [Parameter("uint16", "starterId", 3)]
-        public int StarterId { get; set; }
+	[Parameter("uint16", "starterId", 3)]
+	public int StarterId { get; set; }
 
-        [Parameter("uint16", "currLocation", 4)]
-        public int CurrLocation { get; set; }
+	[Parameter("uint16", "currLocation", 4)]
+	public int CurrLocation { get; set; }
 
-        [Parameter("bool", "isBusy", 5)]
-        public bool IsBusy { get; set; }
+	[Parameter("bool", "isBusy", 5)]
+	public bool IsBusy { get; set; }
 
-        [Parameter("address", "owner", 6)]
-        public string Owner { get; set; }
+	[Parameter("address", "owner", 6)]
+	public string Owner { get; set; }
 
-    }
+}
 ```
 To interact with the contract first we will create an EthCallUnityRequest, which it will be used to make the call.
 
@@ -71,23 +72,24 @@ var getDataCallUnityRequest = new EthCallUnityRequest(url);
 Functions in Unity3d are used to build the call input, so first we will create a contract instance with the ABI and contract address.
 
 ```csharp
- var contract = new Contract(null, @"[{ 'constant':false,'inputs':[],'name':'getData','outputs':[{'name':'birthTime','type':'uint64'},{'name':'userName','type':'string'},{'name':'starterId','type':'uint16'},{'name':'currLocation','type':'uint16'},{'name':'isBusy','type':'bool'},{'name':'owner','type':'address'}],'payable':false,'stateMutability':'nonpayable','type':'function'}]", contractAddress);
+var contract = new Contract(null, @"[{ 'constant':false,'inputs':[],'name':'getData','outputs':[{'name':'birthTime','type':'uint64'},{'name':'userName','type':'string'},{'name':'starterId','type':'uint16'},{'name':'currLocation','type':'uint16'},{'name':'isBusy','type':'bool'},{'name':'owner','type':'address'}],'payable':false,'stateMutability':'nonpayable','type':'function'}]", contractAddress);
 ```
 
 Now we can create a function and create the call input, there are no parameters in our function so it is a simple as:
 
 ```csharp
- var function = contract.GetFunction("getData");
- var callInput = function.CreateCallInput();
+var function = contract.GetFunction("getData");
+var callInput = function.CreateCallInput();
 ```
 
 The next step is to make the call and retrieve the result
 ```
-  yield return getDataCallUnityRequest.SendRequest(callInput, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
-  var result = getDataCallUnityRequest.Result;
+yield return getDataCallUnityRequest.SendRequest(callInput, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
+var result = getDataCallUnityRequest.Result;
 ```
 
 Finally we will just deserialise the result into our object.
+
 ```
 var output = function.DecodeDTOTypeOutput<GetDataDTO>(result);
 ```
@@ -95,10 +97,10 @@ var output = function.DecodeDTOTypeOutput<GetDataDTO>(result);
 #### Full sample
 
 ```csharp
-  void Start ()
-	{
+   void Start ()
+   {
 	    StartCoroutine(GetData());
-	}
+   }
 
     public IEnumerator GetData()
     {
@@ -122,6 +124,5 @@ var output = function.DecodeDTOTypeOutput<GetDataDTO>(result);
         Debug.Log("userName " + output.UserName);
         Debug.Log("ownerAddress " + output.Owner);
     }
-
 
 ```
