@@ -62,15 +62,33 @@ To retrieve multiple parameters we need a DTO object to represent all the output
 
     }
 ```
-To retrieve the data we will create an EthCallUnityRequest, which it will be used to make the call.
+To interact with the contract first we will create an EthCallUnityRequest, which it will be used to make the call.
 
-Functions in Unity3d are used to build the call input, so first we will create a contract with the ABI and contract address to create a Function instance to create the call input. There are not parameters in this function so it is as simple as ```function.CreateCallInput();```
+```csharp
+var getDataCallUnityRequest = new EthCallUnityRequest(url);
+```
+
+Functions in Unity3d are used to build the call input, so first we will create a contract instance with the ABI and contract address.
+
+```csharp
+ var contract = new Contract(null, @"[{ 'constant':false,'inputs':[],'name':'getData','outputs':[{'name':'birthTime','type':'uint64'},{'name':'userName','type':'string'},{'name':'starterId','type':'uint16'},{'name':'currLocation','type':'uint16'},{'name':'isBusy','type':'bool'},{'name':'owner','type':'address'}],'payable':false,'stateMutability':'nonpayable','type':'function'}]", contractAddress);
+```
+
+Now we can create a function and create the call input, there are no parameters in our function so it is a simple as:
+
+```csharp
+ var function = contract.GetFunction("getData");
+        
+        var callInput = function.CreateCallInput();
+function.CreateCallInput();
+```
 
 The next step is to make the call and retrieve the result
 ```
   yield return getDataCallUnityRequest.SendRequest(callInput, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
   var result = getDataCallUnityRequest.Result;
 ```
+
 Finally we will just deserialise the result into our object.
 ```
 var output = function.DecodeDTOTypeOutput<GetDataDTO>(result);
