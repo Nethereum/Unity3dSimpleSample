@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Nethereum.ABI.FunctionEncoding.Attributes;
 using UnityEngine;
 using Nethereum.Contracts;
+using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.JsonRpc.UnityClient;
+using Nethereum.Contracts.CQS;
 
 public class DecodeData : MonoBehaviour {
 
@@ -33,7 +36,8 @@ public class DecodeData : MonoBehaviour {
 
     void Start ()
 	{
-	    StartCoroutine(GetData());
+      // StartCoroutine(GetData());
+	   StartCoroutine(GetArrayUInt256());
 	}
 
     public IEnumerator GetData()
@@ -57,6 +61,34 @@ public class DecodeData : MonoBehaviour {
         Debug.Log("ownerAddress " + output.Owner);
     }
 
+	[Function("GiveMeTheArray", "uint256[]")]
+	public class GiveMeTheArrayFunction:ContractMessage
+	{
+
+	}
+
+	[FunctionOutput]
+	public class GiveMeTheArrayOutputDTO
+	{
+		[Parameter("uint256[]", "result", 1)]
+		public List<BigInteger> Result {get; set;}
+	}
+
+	public IEnumerator GetArrayUInt256()
+	{
+		var contractAddress = "0xd0828aeb00e4db6813e2f330318ef94d2bba2f60";
+		var url = "http://localhost:8545";
+		var getDataCallUnityRequest = new EthCallUnityRequest(url);
+		var functionMessage = new GiveMeTheArrayFunction ();
+		var callInput = functionMessage.CreateCallInput(contractAddress);
+
+		yield return getDataCallUnityRequest.SendRequest(callInput, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
+		var result = getDataCallUnityRequest.Result;
+
+		var output = functionMessage.DecodeDTOTypeOutput<GiveMeTheArrayFunction,GiveMeTheArrayOutputDTO>(result);
+		Debug.Log (output.Result [0]);
+		Debug.Log (output.Result [1]);
+	}
     // Update is called once per frame
     void Update () {
 		
