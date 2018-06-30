@@ -98,18 +98,19 @@ public class DecodeData : MonoBehaviour {
            yield break;
         }
 
-        
         var transactionHash = transactionRequest.Result;
 
         //create a poll to get the receipt when mined
         var transactionReceiptPolling = new TransactionReceiptPollingRequest(url);
+        //checking every 2 seconds for the receipt
         yield return transactionReceiptPolling.PollForReceipt(transactionHash, 2);
         var deploymentReceipt = transactionReceiptPolling.Result;
 
-        //Query request
+        //Query request using our acccount and the contracts address (no parameters needed and default values)
         var queryRequest = new QueryUnityRequest<GiveMeTheArrayFunction,GiveMeTheArrayOutputDTO>(url, account);
         yield return queryRequest.Query(deploymentReceipt.ContractAddress);
 
+        //Getting the dto response already decoded
 		var dtoResult = queryRequest.Result;
 
 		Debug.Log (dtoResult.Result [0]);
