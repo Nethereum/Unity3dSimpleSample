@@ -37,7 +37,7 @@ public class DecodeData : MonoBehaviour {
     void Start ()
 	{
       // StartCoroutine(GetData());
-	   StartCoroutine(GetArrayUInt256());
+	   //StartCoroutine(GetArrayUInt256());
 	}
 
     public IEnumerator GetData()
@@ -81,8 +81,9 @@ public class DecodeData : MonoBehaviour {
 		public List<BigInteger> Result {get; set;}
 	}
 
-    //Sample of new features / requests
-	public IEnumerator GetArrayUInt256()
+
+//Sample of new features / requests
+public IEnumerator GetArrayUInt256()
     { 
 		var url = "http://localhost:8545";
         var privateKey = "0xb5b1870957d373ef0eeffecc6e4812c0fd08f554b37b233526acc331bf1544f7";
