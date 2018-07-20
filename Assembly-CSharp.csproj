@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\DecodeData.cs" />
+    <Compile Include="Assets\EtherTransfer.cs" />
     <Compile Include="Assets\TokenDeployAndSend.cs" />
     <None Include="Assets\link.xml" />
     <Reference Include="UnityEditor.StandardEvents">

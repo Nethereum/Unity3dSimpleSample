@@ -71,6 +71,7 @@ public class TokenDeployAndSend : MonoBehaviour {
     [Event("Transfer")]
     public class TransferEventDTOBase : IEventDTO
     {
+
         [Parameter("address", "_from", 1, true)]
         public virtual string From { get; set; }
         [Parameter("address", "_to", 2, true)]
@@ -81,13 +82,16 @@ public class TokenDeployAndSend : MonoBehaviour {
 
     public partial class TransferEventDTO : TransferEventDTOBase
     {
-
+        public static EventABI GetEventABI()
+        {
+            return EventExtensions.GetEventABI<TransferEventDTO>();
+        }
     }
 
     // Use this for initialization
     void Start () {
 
-        StartCoroutine(DeployAndTransferToken());
+       // StartCoroutine(DeployAndTransferToken());
     }
 
 
@@ -110,7 +114,7 @@ public class TokenDeployAndSend : MonoBehaviour {
         };
 
         //deploy the contract and True indicates we want to estimate the gas
-        yield return transactionRequest.SignAndSendDeploymentContractTransaction<EIP20DeploymentBase>(deployContract, true);
+        yield return transactionRequest.SignAndSendDeploymentContractTransaction<EIP20DeploymentBase>(deployContract);
 
         if (transactionRequest.Exception != null)
         {
@@ -151,7 +155,7 @@ public class TokenDeployAndSend : MonoBehaviour {
 
         };
 
-        yield return transactionTransferRequest.SignAndSendTransaction(transactionMessage, deploymentReceipt.ContractAddress, true);
+        yield return transactionTransferRequest.SignAndSendTransaction(transactionMessage, deploymentReceipt.ContractAddress);
 
         var transactionTransferHash = transactionTransferRequest.Result;
 
@@ -166,7 +170,7 @@ public class TokenDeployAndSend : MonoBehaviour {
 
         var getLogsRequest = new EthGetLogsUnityRequest(url);
 
-        var eventTransfer = EventExtensions.GetEventABI<TransferEventDTO>();
+        var eventTransfer = TransferEventDTO.GetEventABI();
         yield return getLogsRequest.SendRequest(eventTransfer.CreateFilterInput(deploymentReceipt.ContractAddress, account));
 
         var eventDecoded = getLogsRequest.Result.DecodeAllEvents<TransferEventDTO>();

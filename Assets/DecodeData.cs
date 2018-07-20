@@ -91,7 +91,7 @@ public IEnumerator GetArrayUInt256()
         //initialising the transaction request sender
         var transactionRequest = new TransactionSignedUnityRequest(url, privateKey, account);
         //deploy the contract and True indicates we want to estimate the gas
-        yield return transactionRequest.SignAndSendDeploymentContractTransaction<ArrayUint256DynamicDeployment>(true);
+        yield return transactionRequest.SignAndSendDeploymentContractTransaction<ArrayUint256DynamicDeployment>();
 
         if (transactionRequest.Exception != null)
         {
