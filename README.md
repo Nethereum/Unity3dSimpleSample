@@ -1,4 +1,4 @@
-# Unity3dSimpleSample
+# Unity3d Simple Sample (Ether transfer, ERC20 Contract deployment, transfer, query and balance)
 
 This simple sample demonstrates how to simple transfer Ether and the Deployment of a StandardTokenContract, Transfer of a token, Query the balance of a token and finally retrieve Events from Ethereum.
 
@@ -54,6 +54,7 @@ yield return balanceRequest.SendRequest(receivingAddress, BlockParameter.CreateL
 
 We can convert the result in Wei to Eth using the default Wei UnitConvertor.
 
+```csharp
 Debug.Log("Balance of account:" + UnitConversion.Convert.FromWei(balanceRequest.Result.Value));
 ```
 
