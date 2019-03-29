@@ -1,6 +1,6 @@
 # Unity3d Simple Sample (Ether transfer, ERC20 Contract deployment, transfer, query and balance)
 
-This simple sample demonstrates how to simple transfer Ether and the Deployment of a StandardTokenContract, Transfer of a token, Query the balance of a token and finally retrieve Events from Ethereum.
+This sample demonstrates how to transfer Ether and the interaction with as smart contract (in this scenario an ERC20 token smart contract) including Deployment of the contract, Transfer of a token (transaction), Query the balance of a token (calls) and finally retrieve Events from Ethereum.
 
 This sample uses the latest version of Nethereum which you can download from the releases. 
 
