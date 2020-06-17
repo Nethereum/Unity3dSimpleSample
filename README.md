@@ -7,6 +7,7 @@ This sample uses the latest version of Nethereum which you can download from the
 **Note:**
 
 Please remember to remove System.HttpCliend and UnityEngine of the Nethereum release package if included
+
 The sample is outdated in some areas, if upgrading check the current small changes here 
 https://github.com/Nethereum/Nethereum/blob/master/src/Nethereum.Unity/
 For example:
