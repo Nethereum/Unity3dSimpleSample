@@ -4,6 +4,10 @@ This sample demonstrates how to transfer Ether and the interaction with as smart
 
 This sample uses the latest version of Nethereum which you can download from the releases. 
 
+**Note:**
+
+Please remember to remove System.HttpCliend and UnityEngine of the Nethereum release package if included
+
 
 ## Simple Ether transfer
 To transfer Ether Nethereum provides a specific Unity Request, the ```EthTransferUnityRequest```.
